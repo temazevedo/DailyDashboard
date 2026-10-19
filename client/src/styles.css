@@ -308,3 +308,119 @@ body {
   color: var(--color-secondary);
   font-size: 14px;
 }
+
+/* Task card: today's tasks plus unfinished tasks from earlier days. */
+
+.tasks-title {
+  margin: 0 0 12px;
+  color: var(--color-label);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.task-adder {
+  display: flex;
+  gap: 10px;
+}
+
+.task-input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--color-page);
+  border: 1px solid var(--color-label);
+  border-radius: 4px;
+  color: #ccc;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.task-input::placeholder {
+  color: var(--color-secondary);
+}
+
+.task-add-button {
+  width: 40px;
+  height: 40px;
+  background: var(--color-page);
+  border: 1px solid var(--color-label);
+  border-radius: 4px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.task-error {
+  margin: 8px 0 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.tasks-label {
+  margin: 16px 0 0;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.tasks-label-today {
+  color: var(--accent-positive);
+}
+
+.tasks-label-unfinished {
+  color: #f84c5d;
+}
+
+.task-list {
+  margin-top: 4px;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.task-check {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--color-label);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+}
+
+.task-check-done {
+  background: var(--accent-positive);
+  border-color: var(--accent-positive);
+}
+
+.task-text {
+  flex: 1 1 0;
+  min-width: 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.task-text-done {
+  color: var(--color-secondary);
+  text-decoration: line-through;
+}
+
+.task-date {
+  flex-shrink: 0;
+  color: var(--color-secondary);
+  font-size: 12px;
+}
+
+.task-delete {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #f84c5d;
+  font-size: 13px;
+}

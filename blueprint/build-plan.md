@@ -8,4 +8,4 @@ Keep completed items checked; never renumber completed features.
 - [x] 2. Weather card
 - [x] 3. Entry form wired to the backend
 - [x] 4. Monthly graph with averages panel
-- [ ] 5. Task manager
+- [x] 5. Task manager

@@ -100,6 +100,70 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
+// Tasks are stored once with their creation date; the unfinished list is
+// a query (today's strike-through rows come back from the same table).
+const selectDayTasks = db.prepare(
+  'SELECT id, text, date, done FROM tasks WHERE date = ? ORDER BY id ASC',
+);
+const selectUnfinishedTasks = db.prepare(`
+  SELECT id, text, date, done FROM tasks
+  WHERE date < ? AND done = 0
+  ORDER BY date DESC, id DESC
+`);
+const insertTask = db.prepare('INSERT INTO tasks (text, date, done) VALUES (?, ?, 0)');
+const selectTask = db.prepare('SELECT id, text, date, done FROM tasks WHERE id = ?');
+const toggleTask = db.prepare('UPDATE tasks SET done = 1 - done WHERE id = ?');
+const deleteTask = db.prepare('DELETE FROM tasks WHERE id = ?');
+
+function resolveTaskId(rawId) {
+  const id = Number(rawId);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+app.get('/api/tasks', (req, res) => {
+  const date = req.query.date;
+  if (typeof date !== 'string' || !DATE_PATTERN.test(date)) {
+    return res.status(400).json({ error: 'Invalid date' });
+  }
+  return res.json({
+    today: selectDayTasks.all(date),
+    unfinished: selectUnfinishedTasks.all(date),
+  });
+});
+
+app.post('/api/tasks', (req, res) => {
+  const body = req.body || {};
+  const date = typeof body.date === 'string' ? body.date : '';
+  const text = typeof body.text === 'string' ? body.text.trim() : '';
+  if (!DATE_PATTERN.test(date)) {
+    return res.status(400).json({ error: 'Invalid date' });
+  }
+  if (text === '') {
+    return res.status(400).json({ error: 'Task text must not be empty' });
+  }
+  const created = insertTask.run(text, date);
+  return res.status(200).json(selectTask.get(created.lastInsertRowid));
+});
+
+app.patch('/api/tasks/:id', (req, res) => {
+  const id = resolveTaskId(req.params.id);
+  if (id === null) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+  if (toggleTask.run(id).changes === 0) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+  return res.status(200).json(selectTask.get(id));
+});
+
+app.delete('/api/tasks/:id', (req, res) => {
+  const id = resolveTaskId(req.params.id);
+  if (id !== null && deleteTask.run(id).changes > 0) {
+    return res.status(200).json({ ok: true });
+  }
+  return res.status(404).json({ error: 'Task not found' });
+});
+
 app.listen(PORT, () => {
   console.log(`DailyDashboard server listening on port ${PORT}`);
 });

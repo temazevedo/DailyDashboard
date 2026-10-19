@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
+import { todayKey } from '../todayKey';
 
 const EMPTY_FIELDS = { weight_kg: '', mood: '', sleep: '' };
-
-// Today's date in the local timezone, formatted as YYYY-MM-DD.
-function todayKey() {
-  return new Intl.DateTimeFormat('en-CA', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(new Date());
-}
 
 // Empty input -> null (never 0); any other value -> number.
 function toPayloadField(value) {
