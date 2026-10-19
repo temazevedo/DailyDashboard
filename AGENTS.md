@@ -318,16 +318,14 @@ checks do not make the Blueprint unusable.
 
 ## Commands
 
-The app is not scaffolded yet (no package.json, no client/, no server/). PLAN.md
-plans this layout:
+npm is the package manager.
 
-- `client/` - Vite + React (JavaScript, not TypeScript)
-- `server/` - Express + SQLite (better-sqlite3)
-
-Commands will be documented here after the scaffold exists.
-
-- Scaffold: TODO, documented after the client/server skeleton exists
-- Dev server: TODO
-- Build: TODO
+- Install (first time): `npm install` in `client/` and in `server/`
+- Server: `npm start` in `server/` (port 3001, `/api` only)
+- Dev server: `npm run dev` in `client/` (http://localhost:5173, proxies
+  `/api` to the server)
+- Build: `npm run build` in `client/`
+- Production server: none yet (Express serves no static files yet; revisit
+  when deployment is decided)
 - Test: none configured yet (no test runner installed; testing is opt-in via
   `/tests` and becomes a gate only when a test command appears here)

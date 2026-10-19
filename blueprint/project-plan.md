@@ -1,6 +1,6 @@
 # DailyDashboard - Project Plan
 
-A single-page desktop web application. It welcomes the user with today's date in a circular calendar, shows the local weather, stores daily weight, mood and sleep, manages daily tasks, and charts sleep and mood by month.
+A single-page desktop web application. It welcomes the user with today's date in a normal text line above a digital clock, shows the local weather, stores daily weight, mood and sleep, manages daily tasks, and charts sleep and mood by month.
 
 Visual prototype: https://claude.ai/artifact/D3yBoTqKJbGAMjcnK93ppL
 
@@ -40,8 +40,8 @@ The README gives the commands to install and run both parts. In development, the
 
 Dark theme for the whole app, taken from the reference header (https://codepen.io/mattjuggins/pen/WGRRYx).
 
-- Page background `#292929`, cards and rings `#202020`, ring labels `#555`.
-- Accent colors: day name `#4CD964`, month `#007AFF`, day `#FF2D55`, temperature `#FFCC00`.
+- Page background `#292929`, cards `#202020`.
+- Digital clock: hours `#FFF`, minutes `#CCC`, seconds `#AAA`, separator `#555`; date `#9a9a9a`; temperature `#FFCC00`.
 - Font: Roboto Mono, monospace.
 - Cards use the dark surface and a subtle shadow (`0 2px 2px #000`).
 - Secondary text uses a lighter grey (about `#9a9a9a`) so it stays readable.
@@ -50,24 +50,16 @@ Dark theme for the whole app, taken from the reference header (https://codepen.i
 
 A single centered column (max width about 760px) of stacked cards, in this order.
 
-### 1. Header: circular calendar with clock
+### 1. Header: date and digital clock
 
-Reimplement the reference as a React component with plain CSS or inline SVG. Do not copy its SCSS, HAML or jQuery. Keep only the central circular calendar; leave out the weather and steps side rings, the "HELLO" text and the intro fade-in sequence. The header has no card around it: the rings sit directly on the page background.
+One centered row directly on the page background (no card, no dial circle),
+simple and flat: the date first, then a `|`, then the digital time.
 
-Structure (centered, concentric, all circles):
+- **Date line:** today's date as normal text, for example "Wednesday, 19 October 2026", formatted by `Intl.DateTimeFormat` (weekday long, 2-digit day, long month, year). Color `#9a9a9a`, size 14px, Roboto Mono.
+- **Separator:** a `|` between the date and the time, color `#9a9a9a`.
+- **Digital time:** `HH:MM:SS` in Roboto Mono, 14px, right after the separator: hours and minutes `#CCC`, seconds `#AAA`, in-text separators `#555`. A `setInterval` every second updates the displayed time.
 
-- **Center dial:** 150px, background `#202020`, shadow. Contains an analog clock with three hands (hour 10px x 50px `#FFF`, minute 10px x 70px `#CCC`, second 2px x 70px `#AAA`, rounded). A `setInterval` every second updates the rotation: seconds x 6, minutes x 6, hours x 30 + minutes / 2 degrees.
-- **Day name ring:** 250px diameter. Labels MON TUE WED THU FRI SAT SUN.
-- **Month ring:** 350px diameter. Labels JAN FEB ... DEC.
-- **Day ring:** 450px diameter. Labels 01 to 31.
-
-Each ring:
-
-- Is a circle with a 45px band in `#202020` that is open at the bottom (the bottom 90 degrees is missing). Behind it, a faint white ring at 10% opacity (35px wide) acts as a track.
-- Has its labels written around the arc, spanning 270 degrees from -135 to +135. Every label takes (letters + 1) character slots (the +1 is the space), so the angle per slot is `270 / (sections x (letters + 1))`. Text size 12px, color `#555`.
-- Rotates so the current value sits at the top: `sectionWidth = 270 / sections`, `rotation = (135 - sectionWidth / 2) - sectionWidth x (value - 1)`, where `value` is 1-based. Use a CSS transition (about 0.5s) on the transform.
-- Highlights the characters of the current value with its accent color (day name green, month blue, day pink).
-- Sections and letters: day name 7 sections / 3 letters (Monday = 1 ... Sunday = 7), month 12 / 3, day 31 / 2.
+No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 
 ### 2. Weather card
 
@@ -147,7 +139,7 @@ The server has no weather endpoint.
 
 Build and confirm each step before moving on.
 
-1. Project setup and header: the three rings with today's date and the clock
+1. Project setup and header: today's date and the digital clock
 2. Weather card
 3. Entry form wired to the backend
 4. Task manager

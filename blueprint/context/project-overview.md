@@ -1,10 +1,10 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash 969e1e5a342419170dcd0a455a2a599a0139849f3ae254fc18473923c55c8539 -->
+<!-- blueprint:source-hash 4dfd39d3ba6a3d639cd9a2a0be04ce0401701fc7bddd84f5d6804225bfd0b92e -->
 
-> A single-page desktop web dashboard: today's date in a circular calendar,
-> local weather, daily weight/mood/sleep tracking, task management, and a
-> monthly sleep/mood chart.
+> A single-page desktop web dashboard: today's date in a normal text line
+> above a digital clock, local weather, daily weight/mood/sleep tracking,
+> task management, and a monthly sleep/mood chart.
 
 Source of truth: `blueprint/project-plan.md` (verbatim copy of root `PLAN.md`).
 The plan's Guidelines section is strict law: simplicity first, no emojis
@@ -22,8 +22,9 @@ This app puts all five on one dark screen, refreshed daily.
 
 In build-plan order. Headline piece is the circular calendar header.
 
-1. **Project setup and header** - three date rings (day/month/day-number) with
-   an analog clock at the center, ticking once a second via `setInterval`.
+1. **Project setup and header** - a plain date line ("Wednesday, 19
+   October 2026") plus the digital clock (`HH:MM:SS`) in the 150px dial,
+   ticking once a second via `setInterval`.
 2. **Weather card** - Open-Meteo current temperature and condition, browser
    geolocation with a fixed fallback-city constant, Font Awesome icon from the
    weather code; short error text on failure.
@@ -103,21 +104,21 @@ no values.
 ## UI/UX
 
 Single page (`/`), desktop only, one centered column (max ~760px) of stacked
-cards in this order: rings header (no card, sits on page background) -
-weather - daily entry form - task manager - monthly graph.
+cards in this order: header - plain date line plus digital clock dial (no
+card, sits on page background) - weather - daily entry form - task manager -
+monthly graph.
 
-- **Dark theme** from the reference header (https://codepen.io/mattjuggins/pen/WGRRYx),
-  mirrored from `design/design-ref.png` and the claude.ai artifact linked in
-  `PLAN.md`.
-- Colors: page `#292929`, cards/rings `#202020`, ring labels `#555`, accents:
-  day name `#4CD964`, month `#007AFF`, day `#FF2D55`, temperature `#FFCC00`,
+- **Dark theme** from the reference look (https://codepen.io/mattjuggins/pen/WGRRYx
+  and `design/design-ref.png` for the color scheme; the circular-calendar
+  header itself was removed in plan revision 2).
+- Colors: page `#292929`, cards `#202020`, clock digits hours `#FFF`,
+  minutes `#CCC`, seconds `#AAA`, separator `#555`, temperature `#FFCC00`,
   secondary text `#9a9a9a`.
-- Card shadow `0 2px 2px #000`, font Roboto Mono.
-- Rings: center dial 150px with analog clock (hour 10x50 `#FFF`, minute 10x70
-  `#CCC`, second 2x70 `#AAA`); day-name 250px, month 350px, day 450px; each
-  ring a 45px `#202020` band open at the bottom over a 35px white 10% track,
-  arc labels spanning -135..+135 degrees, rotation formula and 0.5s CSS
-  transition as specified in the plan.
+- Header (plain): one centered row - the date "Wednesday, 19 October 2026"
+  (`Intl.DateTimeFormat`, `#9a9a9a`, 14px), a `|` separator (`#9a9a9a`),
+  then the digital time `HH:MM:SS` inline (hours and minutes `#CCC`,
+  seconds `#AAA`, separators `#555`), one-second `setInterval`. No card,
+  dial circle, SVG arcs, or rotation math.
 
 New frontend state allowed for the graph card: only the selected month, e.g.
 `"2026-10"`.

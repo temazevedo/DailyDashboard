@@ -1,0 +1,71 @@
+:root {
+  --color-page: #292929;
+  --color-surface: #202020;
+  --color-label: #555;
+  --color-secondary: #9a9a9a;
+  --accent-temperature: #ffcc00;
+  --shadow-card: 0 2px 2px #000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-secondary);
+  font-family: 'Roboto Mono', monospace;
+}
+
+.page {
+  margin: 0 auto;
+  max-width: 760px;
+}
+
+/* Header: one row - the date, then the digital time. */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 24px;
+}
+
+.header-date {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.header-sep {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.clock {
+  display: inline-flex;
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.time-h {
+  color: #ccc;
+}
+
+.time-m {
+  color: #ccc;
+}
+
+.time-s {
+  color: #aaa;
+}
+
+.time-colon {
+  color: var(--color-label);
+  padding: 0 1px;
+}
