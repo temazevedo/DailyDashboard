@@ -1,6 +1,6 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash 45460fbbf6dfb3ea9abfd02252534eff93140ff1a24ba3b9ac7c3421cfa1cce4 -->
+<!-- blueprint:source-hash bae17281d00931c80e895c862d1ce10f3f834040b65a449949dcb0611da29539 -->
 
 > A single-page desktop web dashboard: today's date in a normal text line
 > above a digital clock, local weather, daily weight/mood/sleep tracking,
@@ -31,7 +31,9 @@ In build-plan order. Headline piece is the circular calendar header.
    `is_day`); short error text on failure.
 3. **Entry form wired to the backend** - optional weight (kg, decimal),
    mood (0-10), sleep (0-10); loads today's entry, one button upserts the
-   row; empty fields save as NULL (never 0).
+   row; empty fields save as NULL (never 0). Styled per the reference:
+   uppercase `TODAY'S ENTRY` title, FA label icons, three equal fields,
+   green Save button.
 4. **Task manager** - add/toggle/delete tasks for today, plus an
    "Unfinished from earlier days" query of tasks created before today that are
    not done, each showing its original date. Tasks never expire and never
@@ -120,7 +122,9 @@ monthly graph.
   (`Intl.DateTimeFormat`, `#9a9a9a`, 14px), a `|` separator (`#9a9a9a`),
   then the digital time `HH:MM:SS` inline (hours and minutes `#CCC`,
   seconds `#AAA`, separators `#555`), one-second `setInterval`. No card,
-  dial circle, SVG arcs, or rotation math.
+  dial circle, SVG arcs, or rotation math. Secondary text `#9a9a9a`
+  throughout; positive-action accent green `#3fd463` (entry Save button now,
+  task buttons later).
 
 New frontend state allowed for the graph card: only the selected month, e.g.
 `"2026-10"`.

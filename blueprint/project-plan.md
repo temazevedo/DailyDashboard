@@ -45,6 +45,7 @@ Dark theme for the whole app, taken from the reference header (https://codepen.i
 - Font: Roboto Mono, monospace.
 - Cards use the dark surface and a subtle shadow (`0 2px 2px #000`).
 - Secondary text uses a lighter grey (about `#9a9a9a`) so it stays readable.
+- Positive-action accent green `#3fd463`, used by the entry form Save button (and later the task-manager buttons), from the reference look.
 
 ## Page layout
 
@@ -73,6 +74,7 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 - Fields: weight in kg (decimal), mood (0-10), sleep (0-10).
 - Every field is optional. An empty field is saved as NULL, never as 0.
 - Font Awesome icon on each field label (weight, face, moon).
+- Looks like the reference: small uppercase section title `TODAY'S ENTRY`, three equal-width labelled fields, inputs with `#555` borders on `#292929`, and a green (`#3fd463`) Save button aligned right.
 - Loads today's entry on page load (empty fields stay empty) and saves with one button. Saving again on the same day updates the row, so clearing a field and saving sets it back to NULL.
 
 ### 4. Task manager

@@ -4,6 +4,7 @@
   --color-label: #555;
   --color-secondary: #9a9a9a;
   --accent-temperature: #ffcc00;
+  --accent-positive: #3fd463;
   --shadow-card: 0 2px 2px #000;
 }
 
@@ -110,6 +111,77 @@ body {
 }
 
 .weather-error {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+/* Entry form card: TODAY'S ENTRY title, three equal fields, one Save button. */
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry-title {
+  margin: 0;
+  color: var(--color-label);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.entry-row {
+  display: flex;
+  gap: 16px;
+}
+
+.entry-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.entry-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.entry-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-page);
+  border: 1px solid var(--color-label);
+  border-radius: 4px;
+  color: #ccc;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.entry-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.entry-button {
+  padding: 9px 22px;
+  background: var(--accent-positive);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.entry-status,
+.entry-error {
   margin: 0;
   color: var(--color-secondary);
   font-size: 14px;
