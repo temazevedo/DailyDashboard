@@ -69,3 +69,48 @@ body {
   color: var(--color-label);
   padding: 0 1px;
 }
+
+/* Weather card. */
+
+.card {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.weather-loading {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.weather-icon {
+  width: 32px;
+  height: 32px;
+  filter: invert(1);
+}
+
+.weather-temp {
+  margin: 0;
+  color: var(--accent-temperature);
+  font-size: 20px;
+}
+
+.weather-text {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.weather-error {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}

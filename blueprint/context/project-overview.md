@@ -1,6 +1,6 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash 4dfd39d3ba6a3d639cd9a2a0be04ce0401701fc7bddd84f5d6804225bfd0b92e -->
+<!-- blueprint:source-hash 45460fbbf6dfb3ea9abfd02252534eff93140ff1a24ba3b9ac7c3421cfa1cce4 -->
 
 > A single-page desktop web dashboard: today's date in a normal text line
 > above a digital clock, local weather, daily weight/mood/sleep tracking,
@@ -23,11 +23,12 @@ This app puts all five on one dark screen, refreshed daily.
 In build-plan order. Headline piece is the circular calendar header.
 
 1. **Project setup and header** - a plain date line ("Wednesday, 19
-   October 2026") plus the digital clock (`HH:MM:SS`) in the 150px dial,
-   ticking once a second via `setInterval`.
+   October 2026"), a `|` separator, and the digital clock (`HH:MM:SS`) as
+   inline text beside it, ticking once a second via `setInterval`.
 2. **Weather card** - Open-Meteo current temperature and condition, browser
-   geolocation with a fixed fallback-city constant, Font Awesome icon from the
-   weather code; short error text on failure.
+   geolocation with a fixed fallback-city constant, icon from the Weather
+   Icons SVGs vendored from Open-Meteo's website (day/night variants via
+   `is_day`); short error text on failure.
 3. **Entry form wired to the backend** - optional weight (kg, decimal),
    mood (0-10), sleep (0-10); loads today's entry, one button upserts the
    row; empty fields save as NULL (never 0).
@@ -97,7 +98,8 @@ no values.
 - **`Date` / `Intl.DateTimeFormat`** - dates only, no date library
 - **Open-Meteo** - weather, fetched straight from the browser, no API key
 - **Roboto Mono** (Google Fonts) and **Font Awesome** (CDN) - typography and
-  icons
+  icons (weather icons are the Weather Icons SVGs vendored from Open-Meteo's
+  website into `client/public/icons/`)
 - **No** UI library, state management library, TypeScript, jQuery, SCSS,
   Tailwind, or date library; one plain CSS stylesheet is fine
 

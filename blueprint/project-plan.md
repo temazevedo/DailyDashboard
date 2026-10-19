@@ -41,7 +41,7 @@ The README gives the commands to install and run both parts. In development, the
 Dark theme for the whole app, taken from the reference header (https://codepen.io/mattjuggins/pen/WGRRYx).
 
 - Page background `#292929`, cards `#202020`.
-- Digital clock: hours `#FFF`, minutes `#CCC`, seconds `#AAA`, separator `#555`; date `#9a9a9a`; temperature `#FFCC00`.
+- Digital clock: hours and minutes `#CCC`, seconds `#AAA`, separator `#555`; date `#9a9a9a`; temperature `#FFCC00`.
 - Font: Roboto Mono, monospace.
 - Cards use the dark surface and a subtle shadow (`0 2px 2px #000`).
 - Secondary text uses a lighter grey (about `#9a9a9a`) so it stays readable.
@@ -64,8 +64,8 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 ### 2. Weather card
 
 - Data from Open-Meteo, fetched directly from the browser.
-- Location from the browser geolocation. If permission is denied, use a fixed fallback city defined as a constant at the top of the file.
-- Shows the current temperature (`#FFCC00`) and the condition as text, with a Font Awesome icon chosen from the weather code (sun, cloud, cloud-rain, snowflake, etc.).
+- Location from the browser geolocation. If permission is denied, use a fixed fallback city (Braga) defined as a constant at the top of the file.
+- Shows the current temperature (`#FFCC00`) and the condition as text, with an icon chosen from the weather code - the Weather Icons SVGs vendored from Open-Meteo's website (`client/public/icons/`, served locally, inverted to show on the dark theme), with day/night variants picked via Open-Meteo's `is_day`. Font Awesome remains the icon font for the rest of the app.
 - If the request fails, show a short text message instead.
 
 ### 3. Daily entry form
