@@ -77,14 +77,7 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 - Looks like the reference: small uppercase section title `TODAY'S ENTRY`, three equal-width labelled fields, inputs with `#555` borders on `#292929`, and a green (`#3fd463`) Save button aligned right.
 - Loads today's entry on page load (empty fields stay empty) and saves with one button. Saving again on the same day updates the row, so clearing a field and saving sets it back to NULL.
 
-### 4. Task manager
-
-- Section "Today": tasks created for today. Add a task, tick it done, delete it.
-- Section "Unfinished from earlier days": tasks from before today that are not done, each showing its original date. They stay until completed or deleted (no expiry).
-- Do not copy tasks between days. Each task is stored once with its creation date; the unfinished list is a query.
-- Font Awesome icons for add, check and delete.
-
-### 5. Monthly graph
+### 4. Monthly graph
 
 - One line chart with two lines, sleep and mood, on the same fixed 0-10 y-axis.
 - X-axis shows the days of the selected calendar month (1 to 28/30/31).
@@ -92,6 +85,13 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 - Opens on the current month. Chevron-left and chevron-right buttons in the card header move to the previous or next month. The next button is disabled on the current month.
 - Averages panel on the right of the chart: average sleep and average mood for the displayed month, each computed only from days where that value is not null (sleep and mood are counted separately). If a month has no values for one of them, show a dash instead of a number. Icons: moon for sleep, face for mood.
 - The only new frontend state for this card is the selected month, for example `"2026-10"`.
+
+### 5. Task manager
+
+- Section "Today": tasks created for today. Add a task, tick it done, delete it.
+- Section "Unfinished from earlier days": tasks from before today that are not done, each showing its original date. They stay until completed or deleted (no expiry).
+- Do not copy tasks between days. Each task is stored once with its creation date; the unfinished list is a query.
+- Font Awesome icons for add, check and delete.
 
 ## Database
 
@@ -144,7 +144,7 @@ Build and confirm each step before moving on.
 1. Project setup and header: today's date and the digital clock
 2. Weather card
 3. Entry form wired to the backend
-4. Task manager
-5. Monthly graph with averages panel
+4. Monthly graph with averages panel
+5. Task manager
 
 Start with step 1. State any assumption in one line, and do not add features that are not listed here.

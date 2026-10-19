@@ -1,6 +1,6 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash bae17281d00931c80e895c862d1ce10f3f834040b65a449949dcb0611da29539 -->
+<!-- blueprint:source-hash 861c7821c08baadac93ddc39c1b6a9c490bfb0281d843c388356447df3408eda -->
 
 > A single-page desktop web dashboard: today's date in a normal text line
 > above a digital clock, local weather, daily weight/mood/sleep tracking,
@@ -34,14 +34,14 @@ In build-plan order. Headline piece is the circular calendar header.
    row; empty fields save as NULL (never 0). Styled per the reference:
    uppercase `TODAY'S ENTRY` title, FA label icons, three equal fields,
    green Save button.
-4. **Task manager** - add/toggle/delete tasks for today, plus an
-   "Unfinished from earlier days" query of tasks created before today that are
-   not done, each showing its original date. Tasks never expire and never
-   copy between days.
-5. **Monthly graph with averages panel** - Recharts line chart of sleep and
+4. **Monthly graph with averages panel** - Recharts line chart of sleep and
    mood on a fixed 0-10 axis, gaps where a value is NULL (`connectNulls`
    off, per line); chevron month navigation (next disabled on current month);
    per-metric averages ignoring NULLs, dash when a metric has no values.
+5. **Task manager** - add/toggle/delete tasks for today, plus an
+   "Unfinished from earlier days" query of tasks created before today that are
+   not done, each showing its original date. Tasks never expire and never
+   copy between days.
 
 ## Data model
 

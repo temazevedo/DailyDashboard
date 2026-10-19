@@ -68,6 +68,38 @@ app.put('/api/entries/:date', (req, res) => {
   }
 });
 
+// Month strings are compared by their first-day/next-month TEXT bounds.
+function monthBounds(month) {
+  const year = Number(month.slice(0, 4));
+  const monthNum = Number(month.slice(5, 7));
+  const next = monthNum === 12 ? { year: year + 1, month: 1 } : { year, month: monthNum + 1 };
+  const nextMonth = `${next.year}-${String(next.month).padStart(2, '0')}-01`;
+  return [`${month}-01`, nextMonth];
+}
+
+const selectMonthEntries = db.prepare(`
+  SELECT date, mood, sleep FROM entries
+  WHERE date >= ? AND date < ?
+  ORDER BY date ASC
+`);
+
+const selectMonthAverages = db.prepare(`
+  SELECT AVG(mood) AS mood, AVG(sleep) AS sleep FROM entries
+  WHERE date >= ? AND date < ?
+`);
+
+app.get('/api/stats', (req, res) => {
+  const month = req.query.month;
+  if (typeof month !== 'string' || !/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) {
+    return res.status(400).json({ error: 'Invalid month' });
+  }
+  const bounds = monthBounds(month);
+  return res.json({
+    entries: selectMonthEntries.all(...bounds),
+    average: selectMonthAverages.get(...bounds),
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`DailyDashboard server listening on port ${PORT}`);
 });

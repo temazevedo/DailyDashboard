@@ -1,6 +1,7 @@
 import Header from './components/Header.jsx';
 import WeatherCard from './components/WeatherCard.jsx';
 import EntryForm from './components/EntryForm.jsx';
+import GraphCard from './components/GraphCard.jsx';
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <Header />
       <WeatherCard />
       <EntryForm />
+      <GraphCard />
     </main>
   );
 }

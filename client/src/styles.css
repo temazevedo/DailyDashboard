@@ -186,3 +186,125 @@ body {
   color: var(--color-secondary);
   font-size: 14px;
 }
+
+/* Graph card: sleep and mood for one month, plus the averages panel. */
+
+.graph-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.graph-title {
+  margin: 0;
+  color: var(--color-label);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.graph-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.graph-button {
+  width: 34px;
+  height: 34px;
+  background: var(--color-page);
+  border: 1px solid var(--color-label);
+  border-radius: 4px;
+  color: #ccc;
+  font-size: 12px;
+}
+
+.graph-button:disabled {
+  color: var(--color-label);
+}
+
+.graph-month {
+  color: #ccc;
+  font-size: 14px;
+  min-width: 110px;
+  text-align: center;
+}
+
+.graph-body {
+  display: flex;
+  gap: 20px;
+}
+
+.graph-chart {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.graph-legend {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.graph-legend span {
+  color: var(--color-secondary);
+  font-size: 12px;
+}
+
+.graph-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  border-top: 2px solid;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.graph-legend .graph-legend-sleep::before {
+  border-color: #45a6f5;
+}
+
+.graph-legend .graph-legend-mood::before {
+  border-color: #f84c5d;
+}
+
+.graph-panel {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  border-left: 1px solid var(--color-label);
+  padding-left: 20px;
+}
+
+.graph-avg-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.graph-avg-sleep .graph-avg-label {
+  color: #45a6f5;
+}
+
+.graph-avg-mood .graph-avg-label {
+  color: #f84c5d;
+}
+
+.graph-avg-value {
+  margin: 6px 0 0;
+  color: #ccc;
+  font-size: 22px;
+}
+
+.graph-loading,
+.graph-error {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 14px;
+}
