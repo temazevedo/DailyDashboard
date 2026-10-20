@@ -1,4 +1,7 @@
 import express from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import db from './db.js';
 
 const PORT = 3001;
@@ -184,6 +187,22 @@ app.delete('/api/tasks/:id', (req, res) => {
   return res.status(404).json({ error: 'Task not found' });
 });
 
+// Serve the built dashboard when it exists: one Node process (port 3001)
+// for the home server - the page and the API share one origin. Without a
+// build, the server stays API-only and the dev flow (Vite 5173 + /api
+// proxy) is untouched.
+const here = path.dirname(fileURLToPath(import.meta.url));
+const staticRoot = path.join(here, '..', '..', 'client', 'dist');
+if (fs.existsSync(path.join(staticRoot, 'index.html'))) {
+  app.use(express.static(staticRoot));
+  // Express 5: '*' is no longer a valid path string; use a regex. The app
+  // has no client routes, so unknown non-/api GETs simply show the
+  // dashboard (refreshes and mistyped deep links).
+  app.get(/^\/(?!api\/?)/, (req, res) => {
+    res.sendFile(path.join(staticRoot, 'index.html'));
+  });
+}
+
 app.listen(PORT, () => {
-  console.log(`DailyDashboard server listening on port ${PORT}`);
+  console.log(`DailyDashboard server listening on port localhost:${PORT}`);
 });

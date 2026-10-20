@@ -139,6 +139,13 @@ Notes on `/api/stats`:
 
 The server has no weather endpoint.
 
+## Serving the built frontend (deployment)
+
+- On the home server: build once (`npm install` then `npm run build` in `client/`), then run the Express API with `npm start` in `server/` - one service on port 3001 serves both the dashboard (static files) and the API.
+- Express statically serves `client/dist` (index.html, hashed assets, vendored icons) when that build exists. Any unknown non-`/api` GET path falls back to `index.html` (single-page app, no client routes).
+- When the build is absent, the server keeps its API-only dev behavior; development stays Vite on 5173 with the `/api` proxy (unchanged).
+- No CORS and no second web server: the app and the API share the same origin.
+
 ## Build order
 
 Build and confirm each step before moving on.
@@ -149,5 +156,6 @@ Build and confirm each step before moving on.
 4. Monthly graph with averages panel
 5. Task manager
 6. Completed tasks hide/show group
+7. Static frontend serving for deployment
 
 Start with step 1. State any assumption in one line, and do not add features that are not listed here.

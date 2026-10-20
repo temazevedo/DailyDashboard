@@ -1,6 +1,6 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash 9901422c52552ba9ec1882bd44fd215ac700a46dbb79ef4c25ee86e20efde950 -->
+<!-- blueprint:source-hash 229c7d49bba49c0bd68e8aa802bcb0198e56912206dd77028652eabdf212e373 -->
 
 > A single-page desktop web dashboard: today's date in a normal text line
 > above a digital clock, local weather, daily weight/mood/sleep tracking,
@@ -44,6 +44,10 @@ In build-plan order. Headline piece is the circular calendar header.
 6. **Completed tasks hide/show group** - one collapsible `COMPLETED` section
    (collapsed by default) holding every done task, today's and older; rows
    show their original date unless created today.
+7. **Static frontend serving** - Express serves the built Vite app
+   (`client/dist`) from port 3001 when a build exists, with an `index.html`
+   fallback for unknown non-`/api` GET paths; without a build the server
+   stays API-only (dev flow unchanged).
 
 ## Data model
 
@@ -149,5 +153,8 @@ else about scale, trust, or availability was established.
 
 ## Deployment
 
-> TODO - target host, build/start commands, env vars, and domain are not
-> decided. Local development: Vite dev server proxying `/api` to Express.
+Target host: the user's home server (single Node process). Build once
+(`npm install` + `npm run build` in `client/`), then run `npm start` in
+`server/` - Express serves `client/dist` and the API on port 3001. Build
+absent: API-only (dev behavior). Local development: Vite dev server proxying
+`/api` to Express.

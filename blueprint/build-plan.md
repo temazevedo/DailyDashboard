@@ -10,3 +10,4 @@ Keep completed items checked; never renumber completed features.
 - [x] 4. Monthly graph with averages panel
 - [x] 5. Task manager
 - [x] 6. Completed tasks hide/show group
+- [x] 7. Static frontend serving for deployment
