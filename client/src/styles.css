@@ -359,6 +359,7 @@ body {
 
 .tasks-label {
   margin: 16px 0 0;
+  color: var(--color-secondary);
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -423,4 +424,16 @@ body {
   border: none;
   color: #f84c5d;
   font-size: 13px;
+}
+
+.task-group-toggle {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--accent-positive);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }

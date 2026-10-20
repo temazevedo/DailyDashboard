@@ -17,7 +17,7 @@ function statusLine(status) {
   return status;
 }
 
-export default function EntryForm() {
+export default function EntryForm({ onSaved }) {
   const [fields, setFields] = useState(EMPTY_FIELDS); // number inputs kept as strings
   const [status, setStatus] = useState(null); // 'saved' | 'load-failed' | 'save-failed' | server error text
 
@@ -67,6 +67,7 @@ export default function EntryForm() {
           return;
         }
         setStatus('saved');
+        if (onSaved) onSaved();
       })
       .catch(() => {
         // Network failure rather than a server answer.

@@ -60,14 +60,17 @@ function TaskRow({ task, showDate, act }) {
 export default function TaskCard() {
   const [today, setToday] = useState([]);
   const [unfinished, setUnfinished] = useState([]);
+  const [completed, setCompleted] = useState([]);
   const [text, setText] = useState('');
   const [status, setStatus] = useState(null); // action status text
   const [failed, setFailed] = useState(false); // initial load failure
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const loadTasks = () =>
     request(`/api/tasks?date=${todayKey()}`, { method: 'GET' }).then((lists) => {
       setToday(lists.today);
       setUnfinished(lists.unfinished);
+      setCompleted(lists.completed);
     });
 
   const act = (url, method, body) => {
@@ -145,6 +148,41 @@ export default function TaskCard() {
             <TaskRow key={task.id} task={task} showDate act={act} />
           ))}
         </div>
+        {completed.length > 0 ? (
+          <>
+            <p className="tasks-label">
+              <button
+                className="task-group-toggle"
+                type="button"
+                aria-expanded={showCompleted}
+                aria-label={showCompleted ? 'Hide completed tasks' : 'Show completed tasks'}
+                onClick={() => setShowCompleted(!showCompleted)}
+              >
+                <i
+                  className={
+                    showCompleted
+                      ? 'fa-solid fa-chevron-down'
+                      : 'fa-solid fa-chevron-right'
+                  }
+                  aria-hidden="true"
+                />
+                Completed ({completed.length})
+              </button>
+            </p>
+            {showCompleted ? (
+              <div className="task-list">
+                {completed.map((task) => (
+                  <TaskRow
+                    key={task.id}
+                    task={task}
+                    showDate={task.date !== todayKey()}
+                    act={act}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </section>
   );

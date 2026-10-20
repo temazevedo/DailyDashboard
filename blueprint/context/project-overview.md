@@ -1,6 +1,6 @@
 # DailyDashboard - Project Overview
 
-<!-- blueprint:source-hash 861c7821c08baadac93ddc39c1b6a9c490bfb0281d843c388356447df3408eda -->
+<!-- blueprint:source-hash 9901422c52552ba9ec1882bd44fd215ac700a46dbb79ef4c25ee86e20efde950 -->
 
 > A single-page desktop web dashboard: today's date in a normal text line
 > above a digital clock, local weather, daily weight/mood/sleep tracking,
@@ -33,8 +33,7 @@ In build-plan order. Headline piece is the circular calendar header.
    mood (0-10), sleep (0-10); loads today's entry, one button upserts the
    row; empty fields save as NULL (never 0). Styled per the reference:
    uppercase `TODAY'S ENTRY` title, FA label icons, three equal fields,
-   green Save button.
-4. **Monthly graph with averages panel** - Recharts line chart of sleep and
+   green Save button. Each successful save auto-refreshes the graph.
    mood on a fixed 0-10 axis, gaps where a value is NULL (`connectNulls`
    off, per line); chevron month navigation (next disabled on current month);
    per-metric averages ignoring NULLs, dash when a metric has no values.
@@ -42,6 +41,9 @@ In build-plan order. Headline piece is the circular calendar header.
    "Unfinished from earlier days" query of tasks created before today that are
    not done, each showing its original date. Tasks never expire and never
    copy between days.
+6. **Completed tasks hide/show group** - one collapsible `COMPLETED` section
+   (collapsed by default) holding every done task, today's and older; rows
+   show their original date unless created today.
 
 ## Data model
 
@@ -127,7 +129,8 @@ monthly graph.
   task buttons later).
 
 New frontend state allowed for the graph card: only the selected month, e.g.
-`"2026-10"`.
+`"2026-10"`. The save-trigger is an App-level revision counter passed as a
+prop (no new graph-card state, no events, no state library).
 
 ## Usage model
 

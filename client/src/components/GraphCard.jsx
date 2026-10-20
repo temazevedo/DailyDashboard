@@ -55,7 +55,7 @@ function formatAverage(value) {
   return value.toFixed(1);
 }
 
-export default function GraphCard() {
+export default function GraphCard({ statsRevision }) {
   const [month, setMonth] = useState(todayMonth());
   const [data, setData] = useState(null); // { chart, average } | null = loading
   const [failed, setFailed] = useState(false);
@@ -88,7 +88,7 @@ export default function GraphCard() {
     return () => {
       cancelled = true;
     };
-  }, [month]);
+  }, [month, statsRevision]);
 
   if (failed) {
     return (

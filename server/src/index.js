@@ -100,14 +100,19 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
-// Tasks are stored once with their creation date; the unfinished list is
-// a query (today's strike-through rows come back from the same table).
+// Tasks are stored once with their creation date; today's and unfinished
+// lists are not-done; completed tasks group separately, any date.
 const selectDayTasks = db.prepare(
-  'SELECT id, text, date, done FROM tasks WHERE date = ? ORDER BY id ASC',
+  'SELECT id, text, date, done FROM tasks WHERE date = ? AND done = 0 ORDER BY id ASC',
 );
 const selectUnfinishedTasks = db.prepare(`
   SELECT id, text, date, done FROM tasks
   WHERE date < ? AND done = 0
+  ORDER BY date DESC, id DESC
+`);
+const selectCompletedTasks = db.prepare(`
+  SELECT id, text, date, done FROM tasks
+  WHERE done = 1
   ORDER BY date DESC, id DESC
 `);
 const insertTask = db.prepare('INSERT INTO tasks (text, date, done) VALUES (?, ?, 0)');
@@ -128,6 +133,7 @@ app.get('/api/tasks', (req, res) => {
   return res.json({
     today: selectDayTasks.all(date),
     unfinished: selectUnfinishedTasks.all(date),
+    completed: selectCompletedTasks.all(),
   });
 });
 

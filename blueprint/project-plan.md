@@ -76,6 +76,7 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 - Font Awesome icon on each field label (weight, face, moon).
 - Looks like the reference: small uppercase section title `TODAY'S ENTRY`, three equal-width labelled fields, inputs with `#555` borders on `#292929`, and a green (`#3fd463`) Save button aligned right.
 - Loads today's entry on page load (empty fields stay empty) and saves with one button. Saving again on the same day updates the row, so clearing a field and saving sets it back to NULL.
+- A successful save refreshes the monthly graph automatically (the graph card refetches what it displays; no manual reload, no polling).
 
 ### 4. Monthly graph
 
@@ -89,7 +90,8 @@ No circular calendar rings, no SVG arcs, no rotation math, and no dial circle.
 ### 5. Task manager
 
 - Section "Today": tasks created for today. Add a task, tick it done, delete it.
-- Section "Unfinished from earlier days": tasks from before today that are not done, each showing its original date. They stay until completed or deleted (no expiry).
+- Section "Unfinished from earlier days": tasks from before today that are not done, each showing their original date. They stay until completed or deleted (no expiry).
+- Completed tasks group: every done task (today's and earlier dates) is grouped in one `COMPLETED` section with a hide/show chevron toggle, visible by default. Rows show their original date unless created today. Unticking sends the row back to Today (if created today) or to the unfinished list (if older).
 - Do not copy tasks between days. Each task is stored once with its creation date; the unfinished list is a query.
 - Font Awesome icons for add, check and delete.
 
@@ -123,7 +125,7 @@ Validation on the server:
 | --- | --- | --- |
 | GET | `/api/entries/:date` | Returns the entry, or an empty object |
 | PUT | `/api/entries/:date` | Insert or update (upsert) |
-| GET | `/api/tasks?date=YYYY-MM-DD` | Returns `{ today: [...], unfinished: [...] }` |
+| GET | `/api/tasks?date=YYYY-MM-DD` | Returns `{ today: [...], unfinished: [...], completed: [...] }` (today and unfinished hold not-done tasks; completed holds every done task, newest first) |
 | POST | `/api/tasks` | Body `{ text, date }` |
 | PATCH | `/api/tasks/:id` | Toggles done |
 | DELETE | `/api/tasks/:id` | Removes a task |
@@ -146,5 +148,6 @@ Build and confirm each step before moving on.
 3. Entry form wired to the backend
 4. Monthly graph with averages panel
 5. Task manager
+6. Completed tasks hide/show group
 
 Start with step 1. State any assumption in one line, and do not add features that are not listed here.
