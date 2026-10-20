@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchJson } from '../fetchJson';
 
 // Weather fallback when the browser geolocation fails or is denied.
 const FALLBACK_CITY = { name: 'Braga', latitude: 41.5454, longitude: -8.4265 };
@@ -37,11 +38,7 @@ export default function WeatherCard() {
 
     const loadWeather = ({ latitude, longitude }) => {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,is_day`;
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          return response.json();
-        })
+      fetchJson(url, 'Weather unavailable')
         .then((data) => {
           if (cancelled) return;
           const temperature = data && data.current && data.current.temperature_2m;

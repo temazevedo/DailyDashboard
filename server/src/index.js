@@ -8,6 +8,20 @@ app.use(express.json());
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
+// First the shape, then calendar reality: month 1-12, day inside that month
+// (new Date(year, month, 0).getDate() is the month's last day). A non-calendar
+// date like 2026-99-99 would persist but be skipped by every stats/list query.
+function isCalendarDate(date) {
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const day = Number(date.slice(8, 10));
+  return month >= 1 && day >= 1 && day <= new Date(year, month, 0).getDate();
+}
+
+function isInvalidDate(date) {
+  return !DATE_PATTERN.test(date) || !isCalendarDate(date);
+}
+
 // One row per day; empty optional fields are stored as NULL, never 0.
 const upsertEntry = db.prepare(`
   INSERT INTO entries (date, weight_kg, mood, sleep)
@@ -45,7 +59,7 @@ function validateEntry(body) {
 }
 
 app.get('/api/entries/:date', (req, res) => {
-  if (!DATE_PATTERN.test(req.params.date)) {
+  if (isInvalidDate(req.params.date)) {
     return res.status(400).json({ error: 'Invalid date' });
   }
   const entry = selectEntry.get(req.params.date);
@@ -56,7 +70,7 @@ app.get('/api/entries/:date', (req, res) => {
 });
 
 app.put('/api/entries/:date', (req, res) => {
-  if (!DATE_PATTERN.test(req.params.date)) {
+  if (isInvalidDate(req.params.date)) {
     return res.status(400).json({ error: 'Invalid date' });
   }
   try {
@@ -127,7 +141,7 @@ function resolveTaskId(rawId) {
 
 app.get('/api/tasks', (req, res) => {
   const date = req.query.date;
-  if (typeof date !== 'string' || !DATE_PATTERN.test(date)) {
+  if (typeof date !== 'string' || isInvalidDate(date)) {
     return res.status(400).json({ error: 'Invalid date' });
   }
   return res.json({
@@ -141,7 +155,7 @@ app.post('/api/tasks', (req, res) => {
   const body = req.body || {};
   const date = typeof body.date === 'string' ? body.date : '';
   const text = typeof body.text === 'string' ? body.text.trim() : '';
-  if (!DATE_PATTERN.test(date)) {
+  if (isInvalidDate(date)) {
     return res.status(400).json({ error: 'Invalid date' });
   }
   if (text === '') {

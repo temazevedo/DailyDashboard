@@ -128,9 +128,11 @@ monthly graph.
   throughout; positive-action accent green `#3fd463` (entry Save button now,
   task buttons later).
 
-New frontend state allowed for the graph card: only the selected month, e.g.
+New frontend state allowed for the graph card: the selected month, e.g.
 `"2026-10"`. The save-trigger is an App-level revision counter passed as a
-prop (no new graph-card state, no events, no state library).
+prop (no events, no state library), and the fetched data carries its own
+month marker so a save-refetch keeps the current chart on screen without a
+loading flash (month navigation keeps the loading state).
 
 ## Usage model
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchJson } from '../fetchJson';
 import {
   CartesianGrid,
   Line,
@@ -57,20 +58,18 @@ function formatAverage(value) {
 
 export default function GraphCard({ statsRevision }) {
   const [month, setMonth] = useState(todayMonth());
-  const [data, setData] = useState(null); // { chart, average } | null = loading
+  const [data, setData] = useState(null); // { month, chart, average } | null = loading/stale month
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    setData(null);
-    fetch(`/api/stats?month=${month}`)
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-      })
+    fetchJson(`/api/stats?month=${month}`, 'Fetch failed')
       .then((stats) => {
         if (cancelled) return;
+        // The month marker lets the render keep this chart on screen while a
+        // later save-trigger refetch (same month) is in flight.
         setData({
+          month,
           chart: stats.entries.map((row) => ({
             day: Number(row.date.slice(8)),
             mood: row.mood,
@@ -125,7 +124,7 @@ export default function GraphCard({ statsRevision }) {
           </button>
         </div>
       </div>
-      {data ? (
+      {data && data.month === month ? (
         <div className="graph-body">
           <div className="graph-chart">
             <ResponsiveContainer width="100%" height={240}>

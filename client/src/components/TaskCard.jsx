@@ -1,27 +1,6 @@
 import { useEffect, useState } from 'react';
 import { todayKey } from '../todayKey';
-
-// All request failures become one Error carrying the status-line text:
-// the server's {"error": ...} message, or "Save failed" for network drops.
-function request(url, options) {
-  return fetch(url, options).then(
-    (response) => {
-      if (!response.ok) {
-        return response
-          .json()
-          .catch(() => null)
-          .then((problem) => {
-            if (problem && problem.error) throw new Error(problem.error);
-            throw new Error('Save failed');
-          });
-      }
-      return response.json();
-    },
-    () => {
-      throw new Error('Save failed');
-    },
-  );
-}
+import { fetchJson } from '../fetchJson';
 
 function TaskRow({ task, showDate, act }) {
   const done = task.done === 1;
@@ -67,7 +46,7 @@ export default function TaskCard() {
   const [showCompleted, setShowCompleted] = useState(false);
 
   const loadTasks = () =>
-    request(`/api/tasks?date=${todayKey()}`, { method: 'GET' }).then((lists) => {
+    fetchJson(`/api/tasks?date=${todayKey()}`, 'Save failed').then((lists) => {
       setToday(lists.today);
       setUnfinished(lists.unfinished);
       setCompleted(lists.completed);
@@ -83,7 +62,7 @@ export default function TaskCard() {
           }
         : { method };
     setStatus(null);
-    return request(url, options)
+    return fetchJson(url, 'Save failed', options)
       .then(() => loadTasks())
       .catch((error) => setStatus(error.message));
   };

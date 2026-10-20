@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import { todayKey } from '../todayKey';
+import { fetchJson } from '../fetchJson';
 
 const EMPTY_FIELDS = { weight_kg: '', mood: '', sleep: '' };
+
+// One status region below the inputs; strings here replace each other.
+// Failures set the display text directly (via fetchJson fallbacks); only a
+// successful save maps to the short 'Saved.' line.
+function statusLine(status) {
+  if (status === 'saved') return 'Saved.';
+  return status;
+}
 
 // Empty input -> null (never 0); any other value -> number.
 function toPayloadField(value) {
   if (value === '') return null;
   return Number(value);
-}
-
-// One status region below the inputs; strings here replace each other.
-function statusLine(status) {
-  if (status === 'saved') return 'Saved.';
-  if (status === 'load-failed') return "Could not load today's entry.";
-  if (status === 'save-failed') return 'Save failed';
-  return status;
 }
 
 export default function EntryForm({ onSaved }) {
@@ -23,11 +24,7 @@ export default function EntryForm({ onSaved }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/entries/${todayKey()}`)
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-      })
+    fetchJson(`/api/entries/${todayKey()}`, "Could not load today's entry.")
       .then((entry) => {
         if (cancelled) return;
         setFields({
@@ -36,8 +33,8 @@ export default function EntryForm({ onSaved }) {
           sleep: entry.sleep ?? '',
         });
       })
-      .catch(() => {
-        if (!cancelled) setStatus('load-failed');
+      .catch((error) => {
+        if (!cancelled) setStatus(error.message);
       });
     return () => {
       cancelled = true;
@@ -46,7 +43,7 @@ export default function EntryForm({ onSaved }) {
 
   const handleSave = (event) => {
     event.preventDefault();
-    fetch(`/api/entries/${todayKey()}`, {
+    fetchJson(`/api/entries/${todayKey()}`, 'Save failed', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -55,23 +52,12 @@ export default function EntryForm({ onSaved }) {
         sleep: toPayloadField(fields.sleep),
       }),
     })
-      .then(async (response) => {
-        if (!response.ok) {
-          // The server answered with a problem body: {"error": <message>}.
-          const problem = await response.json().catch(() => null);
-          const text =
-            problem && problem.error
-              ? problem.error
-              : `Save failed (HTTP ${response.status})`;
-          setStatus(text);
-          return;
-        }
+      .then(() => {
         setStatus('saved');
         if (onSaved) onSaved();
       })
-      .catch(() => {
-        // Network failure rather than a server answer.
-        setStatus('save-failed');
+      .catch((error) => {
+        setStatus(error.message);
       });
   };
 
